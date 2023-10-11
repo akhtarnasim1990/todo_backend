@@ -4,22 +4,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 require("dotenv").config();
 
-module.exports.userAuthentication = async (req, res) => {
-  try {
-    const token = req.headers["x-access-token"];
-    const user = await User.findOne({ email: req.user.email });
-    if (!user) {
-      throw new Error("User not found");
-    }
-    if (token !== user.token) {
-      throw new Error("Seesion has expired");
-    }
-    res.status(200).send({ message: "User authenticated", success: true });
-  } catch (error) {
-    res.status(400).json({ message: error.message, success: false });
-  }
-};
-
 module.exports.userSignUp = async (req, res) => {
   try {
     const { email, password } = req.body;
